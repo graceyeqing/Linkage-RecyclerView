@@ -158,7 +158,7 @@ public class LinkageRecyclerView2<L extends DefaultLeftBean,T extends BaseGroupe
         mRvSecondary.setAdapter(mSecondaryAdapter);
     }
 
-    private void initLinkageSecondary() {
+    public void initLinkageSecondary() {
 
         // Note: headerLayout is shared by both SecondaryAdapter's header and HeaderView
 
