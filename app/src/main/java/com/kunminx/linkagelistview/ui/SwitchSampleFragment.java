@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,17 +35,22 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kunminx.linkage.LinkageRecyclerView;
+import com.kunminx.linkage.LinkageRecyclerView2;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
+import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder2;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryFooterViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryHeaderViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryViewHolder;
 import com.kunminx.linkage.bean.BaseGroupedItem;
+import com.kunminx.linkage.bean.DefaultLeftBean;
 import com.kunminx.linkage.contract.ILinkagePrimaryAdapterConfig;
+import com.kunminx.linkage.contract.ILinkagePrimaryAdapterConfig2;
 import com.kunminx.linkage.contract.ILinkageSecondaryAdapterConfig;
 import com.kunminx.linkagelistview.R;
 import com.kunminx.linkagelistview.bean.ElemeGroupedItem;
 import com.kunminx.linkagelistview.databinding.FragmentSwitchBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,17 +84,24 @@ public class SwitchSampleFragment extends Fragment {
         });
     }
 
-    private void initLinkageData(LinkageRecyclerView linkage) {
+    private void initLinkageData(LinkageRecyclerView2 linkage) {
         Gson gson = new Gson();
         List<ElemeGroupedItem> items = gson.fromJson(getString(R.string.eleme_json),
                 new TypeToken<List<ElemeGroupedItem>>() {
                 }.getType());
 
+        List<DefaultLeftBean> leftBeans = new ArrayList<>();
+        String[] names = {"优惠","套餐","主食","饮料","套餐A","套餐B","套餐C"};
+        for(int i =0;i<names.length;i++){
+            DefaultLeftBean item = new DefaultLeftBean();
+            item.setTitle(names[i]);
+            leftBeans.add(item);
+        }
 
-        linkage.init(items, new ElemeLinkagePrimaryAdapterConfig(), new ElemeLinkageSecondaryAdapterConfig());
+        linkage.init(leftBeans,items, new ElemeLinkagePrimaryAdapterConfig(), new ElemeLinkageSecondaryAdapterConfig());
     }
 
-    private class ElemeLinkagePrimaryAdapterConfig implements ILinkagePrimaryAdapterConfig {
+    private class ElemeLinkagePrimaryAdapterConfig implements ILinkagePrimaryAdapterConfig2 {
 
         private Context mContext;
 
@@ -98,26 +111,34 @@ public class SwitchSampleFragment extends Fragment {
 
         @Override
         public int getLayoutId() {
-            return com.kunminx.linkage.R.layout.default_adapter_linkage_primary;
+            return R.layout.item_linkage_primary;
         }
 
         @Override
         public int getGroupTitleViewId() {
-            return com.kunminx.linkage.R.id.tv_group;
+            return R.id.tv_group2;
+        }
+
+        @Override
+        public int getGroupImageViewId() {
+            return R.id.iv_image2;
         }
 
         @Override
         public int getRootViewId() {
-            return com.kunminx.linkage.R.id.layout_group;
+            return R.id.layout_group2;
         }
 
         @Override
-        public void onBindViewHolder(LinkagePrimaryViewHolder holder, boolean selected, String title) {
+        public void onBindViewHolder(LinkagePrimaryViewHolder2 holder, boolean selected, DefaultLeftBean item) {
             TextView tvTitle = ((TextView) holder.mGroupTitle);
-            tvTitle.setText(title);
+            LinearLayout llback = (LinearLayout) holder.mLayout;
+            tvTitle.setText(item.getTitle());
 
-            tvTitle.setBackgroundColor(mContext.getResources().getColor(
+            llback.setBackgroundColor(mContext.getResources().getColor(
                     selected ? com.kunminx.linkage.R.color.colorPurple : com.kunminx.linkage.R.color.colorWhite));
+//            tvTitle.setBackgroundColor(mContext.getResources().getColor(
+//                    selected ? com.kunminx.linkage.R.color.colorPurple : com.kunminx.linkage.R.color.colorWhite));
             tvTitle.setTextColor(ContextCompat.getColor(mContext,
                     selected ? com.kunminx.linkage.R.color.colorWhite : com.kunminx.linkage.R.color.colorGray));
             tvTitle.setEllipsize(selected ? TextUtils.TruncateAt.MARQUEE : TextUtils.TruncateAt.END);
@@ -127,10 +148,9 @@ public class SwitchSampleFragment extends Fragment {
         }
 
         @Override
-        public void onItemClick(LinkagePrimaryViewHolder holder, View view, String title) {
-            //TODO
-        }
+        public void onItemClick(LinkagePrimaryViewHolder2 holder, View view, DefaultLeftBean item) {
 
+        }
     }
 
     private class ElemeLinkageSecondaryAdapterConfig implements

@@ -6,13 +6,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.kunminx.linkage.LinkageRecyclerView
+        <com.kunminx.linkage.LinkageRecyclerView2
             android:id="@+id/linkage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-        </com.kunminx.linkage.LinkageRecyclerView>
+        </com.kunminx.linkage.LinkageRecyclerView2>
 
 
         <com.google.android.material.button.MaterialButton

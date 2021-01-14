@@ -45,7 +45,7 @@ public class BottomSheetPopup extends BottomPopupView {
         linkage.setScrollSmoothly(false);
         linkage.setDefaultOnItemBindListener(
                 (primaryHolder, primaryClickView, title) -> {
-                    Snackbar.make(primaryClickView, title, Snackbar.LENGTH_SHORT).show();
+//                    Snackbar.make(primaryClickView, title, Snackbar.LENGTH_SHORT).show();
                 },
                 (primaryHolder, title) -> {
                     //TODO
